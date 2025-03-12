@@ -7,7 +7,7 @@ import {
 import { Button, Layout, Menu, Modal, theme } from 'antd';
 import { NavLink, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { adminRights } from '../../router/routes';
-import MainLogo from '../../assets/texnoark-logo.svg';
+import MainLogo from '../../assets/otu-logo.png';
 import { removeAccesToken } from '../../utils/token-service';
 
 const { Header, Sider, Content } = Layout;
@@ -21,7 +21,7 @@ const App = () => {
 
 
     const handleLogout = () => {
-        navigate('/sign-in');
+        navigate('/');
         removeAccesToken()
     };
 
@@ -49,10 +49,10 @@ const App = () => {
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed} width={260}>
                 <div className="demo-logo-vertical" />
-                <div className='flex p-4 gap-2 font-semibold mb-2'>
-                    <img src={MainLogo} alt="main-logo" />
+                <div className='flex  items-center p-4 gap-2 font-semibold mb-2'>
+                    <img src={MainLogo} alt="main-logo" className='w-[48px] h-[47px]' />
                     {
-                        !collapsed && (<span className='text-[20px] text-[#fff] flex'>Techno Ark</span>)
+                        !collapsed && (<span className='text-[20px] text-[#fff] flex'>Super Admin</span>)
                     }
                 </div>
                 <Menu theme="dark" mode="inline" selectedKeys={[pathname]}>

@@ -3,11 +3,20 @@ import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 
 // ========== PARAMS TYPE ==========
 export interface ParamsType {
-limit:number,
+size:number,
 page:number,
 search:string,
 }
 
+interface PagingType {
+    totalElements: number;
+  }
+export interface RolesResponse {
+    data: {
+      content: RoleType[];
+      paging: PagingType;
+    };
+  }
 
 // ========== MODALS TYPE ==========
 export interface GlobalModalProps {
@@ -36,3 +45,11 @@ export interface SearchType {
     updateParams: (params: ParamsType) => void;
     placeholder?: string;
 }
+
+// ===========ROLE TYPE=============
+export interface RoleType {
+    name: string;
+    displayName: string;
+    defaultUrl: string;
+    permissions: number[];
+  }

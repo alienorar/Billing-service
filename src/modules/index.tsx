@@ -31,12 +31,25 @@ const Ads = loadable(() => import('./ads/pages'), {
 const Stock = loadable(() => import('./stock/pages'), {
   fallback: <Loading />
 });
+const AdminPage = loadable(() => import('./admin/pages'), {
+  fallback: <Loading />
+});
+const Role = loadable(() => import('./role/pages'), {
+  fallback: <Loading />
+});
+const Students = loadable(() => import('./students/pages'), {
+  fallback: <Loading />
+});
+
 const NotFound = loadable(() => import('./not-found'), {
   fallback: <Loading />
 });
 export {
   SignIn,
   AdminPanel,
+  AdminPage,
+  Students,
+  Role,
   Products,
   Categories,
   Brands,

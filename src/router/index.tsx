@@ -8,7 +8,9 @@ import App from '../App.tsx';
 import {
     SignIn,
     AdminPanel,
-    Products,
+    AdminPage,
+    Role,
+    Students,
     Categories,
     Brands,
     SubCategories,
@@ -26,8 +28,10 @@ const Index = () => {
             <Route>
                 <Route path="/" element={<App />}>
                     <Route path="/" element={<SignIn />} />
-                    <Route path="super-admin-panel" element={<AdminPanel />}>
-                        <Route index element={<Products />} />
+                    <Route path="super-admin-panel" element={<AdminPanel/>}>
+                        <Route index element={<Role />} />
+                        <Route path="admin-page" element={<AdminPage />}/>
+                        <Route path="students" element={<Students />} />
                         <Route path="product-details/:id" element={<ProductDetails />} />
                         <Route path="categories" element={<Categories />} />
                         <Route path="categories/:id" element={<SubCategories />} />

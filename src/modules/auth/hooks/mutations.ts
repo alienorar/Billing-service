@@ -12,11 +12,10 @@ export function useSignInMutation() {
         mutationFn: (data: SignIn) => signIn(data),
         onSuccess: (response: any) => {
             openNotification('success', "Success", response?.data?.message);
-            console.log(response?.access?.accesToken, "ehdefher");
-            const access_token = response?.data?.data?.tokens?.access_token;
+            const access_token = response?.data?.data?.access?.accessToken;
            
 
-            const id = response.data?.data?.data?.id;
+            const id = response.data?.user?.id;
             // console.log(id, "hdejhhw");
             saveAccesToken(access_token);
             localStorage.setItem("id", id);
@@ -28,7 +27,7 @@ export function useSignInMutation() {
 
         }
 
-        
+
     })
 }
 

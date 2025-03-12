@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
     const access_token = getAccesToken()
     if (access_token) {
-        config.headers['Authorization'] = `Bearer ${access_token}`
+        config.headers['x-admin-token'] = access_token
     }
     return config
 })
