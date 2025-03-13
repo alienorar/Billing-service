@@ -5,18 +5,27 @@ import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 export interface ParamsType {
 size:number,
 page:number,
-search:string,
+search?:string,
 }
 
-interface PagingType {
-    totalElements: number;
+export interface PagingType {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
   }
+
+
 export interface RolesResponse {
-    data: {
-      content: RoleType[];
-      paging: PagingType;
+  data: {
+    content: RoleType[];
+    paging: {
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
     };
-  }
+  };
+}
+
 
 // ========== MODALS TYPE ==========
 export interface GlobalModalProps {
@@ -53,3 +62,6 @@ export interface RoleType {
     defaultUrl: string;
     permissions: number[];
   }
+
+
+  

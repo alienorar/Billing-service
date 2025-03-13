@@ -4,15 +4,15 @@ import { EditOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { GlobalTable, GlobalSearch } from '@components';
 import { ConfirmDelete } from "@components";
-import { ParamsType, RolesResponse } from "@types";
+import { ParamsType, RoleType } from "@types";
 import { useGetPermessions, useGetRoles } from "../hooks/queries";
 import RolesModal from "./modal";
 
 const Index = () => {
-  const [tableData, setTableData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [update, setUpdate] = useState({});
-  const [total, setTotal] = useState(0);
+  const [tableData, setTableData] = useState<RoleType[]>([]);
+  const [total, setTotal] = useState<number>(0);
   const navigate = useNavigate();
   const { data: permessions } = useGetPermessions();
   const { search } = useLocation();
@@ -20,30 +20,30 @@ const Index = () => {
 
   // Pagination params
   const [params, setParams] = useState({
-    size: 3,
+    size: 10 ,
     page: 1
   });
 
   // Fetch roles with params
-  const { data: roles } = useGetRoles<RolesResponse>({
+  const { data: roles } = useGetRoles({
     size: params.size,
     page: params.page - 1,  
-  });
+});
 
   // Set params from URL query params
   useEffect(() => {
     const queryParams = new URLSearchParams(search);
-    let page = Number(queryParams.get("page")) || 0;
-    let size = Number(queryParams.get("size")) || 2;
-
+    let page = Number(queryParams.get("page")) || 1; 
+    let size = Number(queryParams.get("size")) || 10;
+  
     setParams({ size, page });
   }, [search]);
-
+  
   // Update table data when roles change
   useEffect(() => {
     if (roles?.data?.content) {
       setTableData(roles.data.content);
-      setTotal(roles.paging?.totalItems || 0);
+      setTotal(roles.data.paging.totalItems || 0);
     }
   }, [roles]);
 
