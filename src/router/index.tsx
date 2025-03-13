@@ -11,15 +11,8 @@ import {
     AdminPage,
     Role,
     Students,
-    Categories,
-    Brands,
-    SubCategories,
-    BrandCategories,
-    Ads,
-    Stock,
     NotFound,
-    Settings,
-    ProductDetails
+
 } from '@modules'
 
 const Index = () => {
@@ -28,18 +21,10 @@ const Index = () => {
             <Route>
                 <Route path="/" element={<App />}>
                     <Route path="/" element={<SignIn />} />
-                    <Route path="super-admin-panel" element={<AdminPanel/>}>
+                    <Route path="super-admin-panel" element={<AdminPanel />}>
                         <Route index element={<Role />} />
-                        <Route path="admin-page" element={<AdminPage />}/>
+                        <Route path="admin-page" element={<AdminPage />} />
                         <Route path="students" element={<Students />} />
-                        <Route path="product-details/:id" element={<ProductDetails />} />
-                        <Route path="categories" element={<Categories />} />
-                        <Route path="categories/:id" element={<SubCategories />} />
-                        <Route path="brands" element={<Brands />} />
-                        <Route path="brand-categories" element={<BrandCategories />} />
-                        <Route path="ads" element={<Ads />} />
-                        <Route path="stock" element={<Stock />} />
-                        <Route path="settings" element={<Settings />} />
                     </Route>
                 </Route>
                 <Route path="*" element={<NotFound />}></Route>

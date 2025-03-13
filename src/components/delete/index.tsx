@@ -31,7 +31,7 @@ const PopconfirmDelete = ({ onConfirm, onCancel, id, title }: ConfirmType) => {
         <>
             <Tooltip title="delete">
                 <Button onClick={showDeleteModal}>
-                    <DeleteOutlined className='text-orange-500 text-[18px]' />
+                    <DeleteOutlined className='text-red-400 text-[18px]' />
                 </Button>
             </Tooltip>
 
@@ -43,8 +43,8 @@ const PopconfirmDelete = ({ onConfirm, onCancel, id, title }: ConfirmType) => {
                 onCancel={handleCancel}
                 okButtonProps={{
                     style: {
-                        backgroundColor: 'orangered',
-                        borderColor: 'orangered',
+                        backgroundColor: 'red',
+                        borderColor: 'red',
                         color: 'white',
                         marginLeft: "10px",
                         width: "70px"

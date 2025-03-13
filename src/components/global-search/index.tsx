@@ -22,7 +22,7 @@ const SearchInput = ({ updateParams, placeholder }: SearchType) => {
         if (updateParams) {
             updateParams({
                 search: newSearchValue,
-                limit: newSearchValue,
+                size: newSearchValue,
                 page: newSearchValue
             });
         }

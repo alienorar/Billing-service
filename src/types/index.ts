@@ -27,12 +27,12 @@ export interface RolesResponse {
       totalPages: number;
       totalItems: number;
     };
-    
+
   };
 }
 
 export interface AdminsResponse {
-  message?: string;
+  message?: string | any;
   data: {
     content: AdminType[];
     paging: {
@@ -40,7 +40,7 @@ export interface AdminsResponse {
       totalPages: number;
       totalItems: number;
     };
-    
+
   };
 }
 
@@ -92,7 +92,7 @@ export interface RoleModalType extends GlobalModalProps {
 
 // ===========ADMIN TYPE=============
 export interface AdminType {
-  id?:number;
+  id?: number;
   roleId?: number;
   username?: string;
   phone?: string;

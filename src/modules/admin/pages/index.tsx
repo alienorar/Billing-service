@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Space, Tooltip } from "antd";
+import { Button, Input, Space, Tooltip } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ConfirmDelete, GlobalTable } from "@components";
@@ -16,12 +16,17 @@ const Index = () => {
   const [rolesL, setRolesL] = useState([]);
   const navigate = useNavigate();
   const { search } = useLocation();
-  const { mutate } = useDeleteAdmins()
+  const { mutate } = useDeleteAdmins();
 
+  const [searchParams, setSearchParams] = useState({
+    phone: "",
+    firstName: "",
+    lastName: "",
+  });
   // Pagination params
   const [params, setParams] = useState({
     size: 10,
-    page: 1
+    page: 1,
   });
 
   const { data: roles } = useGetRoles()
@@ -35,6 +40,9 @@ const Index = () => {
   const { data: admins } = useGetAdmins({
     size: params.size,
     page: params.page - 1,
+    phone: searchParams.phone ? Number(searchParams.phone) : undefined,
+    firstName: searchParams.firstName,
+    lastName: searchParams.lastName,
   });
 
   // Set params from URL query params
@@ -42,9 +50,14 @@ const Index = () => {
     const queryParams = new URLSearchParams(search);
     let page = Number(queryParams.get("page")) || 1;
     let size = Number(queryParams.get("size")) || 10;
-
     setParams({ size, page });
+    setSearchParams({
+      phone: queryParams.get("phone") || "",
+      firstName: queryParams.get("firstName") || "",
+      lastName: queryParams.get("lastName") || "",
+    });
   }, [search]);
+
 
   // Update table data when admins change
   useEffect(() => {
@@ -61,6 +74,11 @@ const Index = () => {
     navigate(`?page=${current}&size=${pageSize}`);
   };
 
+  const handleSearch = () => {
+    navigate(
+      `?page=1&size=${params.size}&phone=${searchParams.phone}&firstName=${searchParams.firstName}&lastName=${searchParams.lastName}`
+    );
+  };
   // Open and close modal
   const showModal = () => setIsModalOpen(true);
   const handleClose = () => {
@@ -141,15 +159,43 @@ const Index = () => {
         update={update}
         roles={rolesL}
       />
-      <div className="flex items-center justify-end py-4 px-5">
-        <Button
-          type="primary"
-          size="large"
-          style={{ maxWidth: 160, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40 }}
-          onClick={showModal}
-        >
-          Create
-        </Button>
+      <div className="flex flex-col gap-4 px-5 py-4">
+        <div className="flex items-center justify-between ">
+          <Input
+            placeholder="Search by phone"
+            value={searchParams.phone}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchParams({ ...searchParams, phone: e.target.value })
+            }
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+            className="w-[300px]"
+          />
+
+          <Input
+            placeholder="Search by first name"
+            value={searchParams.firstName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchParams({ ...searchParams, firstName: e.target.value })
+            }
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+            className="w-[300px]"
+          />
+
+          <Input
+            placeholder="Search by last name"
+            value={searchParams.lastName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchParams({ ...searchParams, lastName: e.target.value })
+            }
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+            className="w-[300px]"
+          />
+
+          <Button type="primary" size="large" style={{ maxWidth: 160, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40 }} onClick={handleSearch}>Search</Button>
+        </div>
+        <Button type="primary" size="large" style={{ maxWidth: 80, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40, }} onClick={showModal} className="text-[16px]">
+            Create
+          </Button>
       </div>
       <GlobalTable
         data={tableData}

@@ -8,9 +8,9 @@ export function useCreateAdmin() {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (data: AdminType) => createAdmins(data),
-        onSuccess: (data) => {
-            openNotification("success", "Success",data?.data?.message)
-            queryClient.invalidateQueries({ queryKey: ["admins"] })
+        onSuccess: () => {
+            openNotification("success", "Success", "Admin successfully created");
+            queryClient.invalidateQueries({ queryKey: ["admins"] });
         },
         onError: (error) => {
             openNotification("error", "Error", error?.message)
