@@ -92,6 +92,7 @@ export interface RoleModalType extends GlobalModalProps {
 
 // ===========ADMIN TYPE=============
 export interface AdminType {
+  id?:number;
   roleId?: number;
   username?: string;
   phone?: string;

@@ -2,25 +2,34 @@ import { useEffect, useState } from "react";
 import { Button, Space, Tooltip } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
-import { GlobalTable } from "@components";
+import { ConfirmDelete, GlobalTable } from "@components";
 import { AdminType } from "@types";
-import { useGetAdmins } from "../hooks/queries";
+import { useGetAdmins, useGetRoles } from "../hooks/queries";
 import AdminsModal from "./modal";
+import { useDeleteAdmins } from "../hooks/mutations";
 
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [update, setUpdate] = useState<AdminType | null>(null);
   const [tableData, setTableData] = useState<AdminType[]>([]);
   const [total, setTotal] = useState<number>(0);
-  const [roles,setRoles] = useState([]);
+  const [rolesL, setRolesL] = useState([]);
   const navigate = useNavigate();
   const { search } = useLocation();
+  const { mutate } = useDeleteAdmins()
 
   // Pagination params
   const [params, setParams] = useState({
     size: 10,
     page: 1
   });
+
+  const { data: roles } = useGetRoles()
+  useEffect(() => {
+    if (roles) {
+      setRolesL(roles?.data?.data?.content);
+    }
+  }, [roles]);
 
   // Fetch admins with params
   const { data: admins } = useGetAdmins({
@@ -65,6 +74,11 @@ const Index = () => {
     showModal();
   };
 
+  // ======== delete Data ========= 
+  const deleteData = async (id: number) => {
+    mutate(id)
+
+  };
   // Table columns
   const columns = [
     {
@@ -90,7 +104,13 @@ const Index = () => {
     {
       title: 'Date',
       dataIndex: 'createdAt',
-      render: (date: string) => new Date(date).toLocaleDateString('en-GB').replace(/\//g, '.')
+      render: (date: string) => {
+        if (!date) return '-';
+        // Convert "13-03-2025 12:32:55" → "2025-03-13T12:32:55"
+        const [day, month, year, time] = date.split(/[-\s:]/);
+        const formattedDate = new Date(`${year}-${month}-${day}T${time}:${date.split(':')[2]}`);
+        return formattedDate.toLocaleDateString('en-GB').replace(/\//g, '.');
+      }
     },
     {
       title: "Action",
@@ -102,6 +122,12 @@ const Index = () => {
               <EditOutlined />
             </Button>
           </Tooltip>
+          <ConfirmDelete
+            id={record.id}
+            onConfirm={deleteData}
+            onCancel={() => console.log('Cancelled')}
+            title={"Delete this Brands ?"}
+          />
         </Space>
       ),
     },
@@ -113,6 +139,7 @@ const Index = () => {
         open={isModalOpen}
         handleClose={handleClose}
         update={update}
+        roles={rolesL}
       />
       <div className="flex items-center justify-end py-4 px-5">
         <Button

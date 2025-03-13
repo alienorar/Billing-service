@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AdminType } from "@types"
 import { openNotification } from "@utils"
-import { createAdmins, updateAdmins } from "../service"
+import { createAdmins, deleteAdmins, updateAdmins } from "../service"
 
 // ============ CREATE ROLES ===========
 export function useCreateAdmin() {
@@ -9,7 +9,7 @@ export function useCreateAdmin() {
     return useMutation({
         mutationFn: (data: AdminType) => createAdmins(data),
         onSuccess: (data) => {
-            openNotification("success", "Success", data?.data?.message)
+            openNotification("success", "Success",data?.data?.message)
             queryClient.invalidateQueries({ queryKey: ["admins"] })
         },
         onError: (error) => {
@@ -36,4 +36,23 @@ export function useUpdateAdmin() {
         }
     })
 
+}
+
+//============= DELETE ADMINS ===============
+export function useDeleteAdmins() {
+    const queryClient = useQueryClient()
+  return useMutation({
+      mutationFn:(id:number|string)=> deleteAdmins(id),
+      onSuccess: (data) => {
+          openNotification("success", "Success", data?.data?.message)
+      },
+    onSettled:(_,error)=>{
+        if (error) {
+          openNotification("error","Error",error?.message)  
+        }else{
+            queryClient.invalidateQueries({ queryKey: ["admins"]})
+        }
+    }
+  })
+    
 }
