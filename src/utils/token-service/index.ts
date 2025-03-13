@@ -1,17 +1,16 @@
-// ============SAVE ACCESS TOKEN ==========
-export const saveAccesToken = (access_token: string) => {
-    localStorage.setItem("access_token", access_token)
-}
+export const getAccessToken = () => localStorage.getItem("accessToken");
+export const getRefreshToken = () => localStorage.getItem("refreshToken");
 
-// ============GET ACCESS TOKEN ==========
-export const getAccesToken = () => {
-    return localStorage.getItem("access_token")
-}
+export const setAccessToken = (token: string) => {
+  localStorage.setItem("accessToken", token);
+};
 
-// ============REMOVE ACCESS TOKEN ==========
-export const removeAccesToken = () => {
-    localStorage.removeItem("access_token")
-}
+export const setRefreshToken = (token: string) => {
+  localStorage.setItem("refreshToken", token);
+};
 
-
-
+export const logout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  window.location.href = "/";
+};

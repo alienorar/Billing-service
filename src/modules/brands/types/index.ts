@@ -17,3 +17,4 @@ export interface BrandModalProps extends GlobalModalProps {
 }
 
 
+// delete useless elements and , fix styles 

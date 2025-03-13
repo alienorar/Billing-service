@@ -8,7 +8,8 @@ import { Button, Layout, Menu, Modal, theme } from 'antd';
 import { NavLink, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { adminRights } from '../../router/routes';
 import MainLogo from '../../assets/otu-logo.png';
-import { removeAccesToken } from '../../utils/token-service';
+import { logout } from '../../utils/token-service';
+
 
 const { Header, Sider, Content } = Layout;
 const { Item } = Menu;
@@ -22,7 +23,7 @@ const App = () => {
 
     const handleLogout = () => {
         navigate('/');
-        removeAccesToken()
+        logout()
     };
 
 
@@ -98,7 +99,6 @@ const App = () => {
                     style={{
                         margin: '0 16px',
                         minHeight: '100vh',
-                        // background: darkDangerItemActiveBg,
                         borderRadius: borderRadiusLG,
                     }}
                 >

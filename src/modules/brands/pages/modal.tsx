@@ -5,10 +5,10 @@ import { useCreateBrands, useUpdateBrands } from '../hooks/mutations';
 
 const { Option } = Select;
 
-const BrandsModal = ({ open, handleClose, update,categories }: BrandModalProps) => {
+const BrandsModal = ({ open, handleClose, update, categories }: BrandModalProps) => {
     const [form] = Form.useForm();
     const { mutate: createMutate, isPending: isCreating } = useCreateBrands()
-    const {mutate:updateMutate, isPending:isUpdating}=useUpdateBrands()
+    const { mutate: updateMutate, isPending: isUpdating } = useUpdateBrands()
 
 
     useEffect(() => {
@@ -30,13 +30,13 @@ const BrandsModal = ({ open, handleClose, update,categories }: BrandModalProps) 
     };
 
 
-    const onFinish = async (value:BrandType) => {
-          const demo: BrandType = {
-              name: value?.name,
-              description: value?.description,
-              categoryId: value?.category_id
-          }
-      
+    const onFinish = async (value: BrandType) => {
+        const demo: BrandType = {
+            name: value?.name,
+            description: value?.description,
+            categoryId: value?.category_id
+        }
+
 
         let formData: any = new FormData();
         formData.append("name", value?.name);
@@ -44,20 +44,20 @@ const BrandsModal = ({ open, handleClose, update,categories }: BrandModalProps) 
         formData.append("description", value?.description);
         formData.append("file", file);
 
-       if (update?.id) {
-        const payload = { ...demo,id:update?.id}
-        updateMutate(payload,{
-            onSuccess:()=>{
-                handleClose()
-            }
-        })
-       }else{
-           createMutate(formData, {
-               onSuccess: () => {
-                   handleClose()
-               }
-           })
-       }
+        if (update?.id) {
+            const payload = { ...demo, id: update?.id }
+            updateMutate(payload, {
+                onSuccess: () => {
+                    handleClose()
+                }
+            })
+        } else {
+            createMutate(formData, {
+                onSuccess: () => {
+                    handleClose()
+                }
+            })
+        }
     };
 
     return (

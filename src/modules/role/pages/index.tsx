@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { Button, Space, Tooltip } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { GlobalTable, GlobalSearch } from '@components';
-import { ConfirmDelete } from "@components";
-import { ParamsType, RoleType } from "@types";
+import { GlobalTable } from '@components';
+import { RoleType } from "@types";
 import { useGetPermessions, useGetRoles } from "../hooks/queries";
 import RolesModal from "./modal";
 
@@ -20,25 +19,25 @@ const Index = () => {
 
   // Pagination params
   const [params, setParams] = useState({
-    size: 10 ,
+    size: 10,
     page: 1
   });
 
   // Fetch roles with params
   const { data: roles } = useGetRoles({
     size: params.size,
-    page: params.page - 1,  
-});
+    page: params.page - 1,
+  });
 
   // Set params from URL query params
   useEffect(() => {
     const queryParams = new URLSearchParams(search);
-    let page = Number(queryParams.get("page")) || 1; 
+    let page = Number(queryParams.get("page")) || 1;
     let size = Number(queryParams.get("size")) || 10;
-  
+
     setParams({ size, page });
   }, [search]);
-  
+
   // Update table data when roles change
   useEffect(() => {
     if (roles?.data?.content) {
@@ -50,17 +49,10 @@ const Index = () => {
   // Handle table pagination change
   const handleTableChange = (pagination: any) => {
     const { current, pageSize } = pagination;
-    
     setParams({ size: pageSize, page: current });
-
-    // Update URL
     navigate(`?page=${current}&size=${pageSize}`);
   };
 
-  // Update search params
-  const updateParams = (newParams: ParamsType) => {
-    setParams((prev) => ({ ...prev, ...newParams }));
-  };
 
   // Open and close modal
   const showModal = () => setIsModalOpen(true);
@@ -77,15 +69,11 @@ const Index = () => {
   }, [permessions]);
 
   // Edit data
-  const editData = (item: any) => {
+  const editData = (item: RoleType) => {
     setUpdate(item);
     showModal();
   };
 
-  // Delete data
-  const deleteData = async (id: number) => {
-    mutate(id);
-  };
 
   // Table columns
   const columns = [
@@ -115,12 +103,6 @@ const Index = () => {
               <EditOutlined />
             </Button>
           </Tooltip>
-          <ConfirmDelete
-            id={record.id}
-            onConfirm={deleteData}
-            onCancel={() => console.log('Cancelled')}
-            title={"Delete this Role?"}
-          />
         </Space>
       ),
     },
@@ -134,9 +116,8 @@ const Index = () => {
         update={update}
         permessionL={permessionL}
       />
-      <div className="flex items-center justify-between py-4">
-        <GlobalSearch updateParams={updateParams} placeholder={"Search Roles"} />
-        <Button 
+      <div className="flex items-center justify-end py-4 px-5">
+        <Button
           type="primary"
           size="large"
           style={{ maxWidth: 160, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40 }}
@@ -152,9 +133,9 @@ const Index = () => {
         pagination={{
           current: params.page,
           pageSize: params.size,
-          total: total || 0, 
+          total: total || 0,
           showSizeChanger: true,
-          pageSizeOptions: ['2', '3', '4', '6']
+          pageSizeOptions: ['2', '4', '6', '10']
         }}
       />
     </>
@@ -162,3 +143,6 @@ const Index = () => {
 };
 
 export default Index;
+
+
+

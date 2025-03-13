@@ -17,15 +17,7 @@ export async function getPermessions() {
 }
 
 //============= UPDATE ROLES ===============
-export async function updateRoles(params: ParamsType): Promise<RolesResponse> {
-    return (await axiosInstance.get(`api/v1/role/list`, { params })).data;
+export async function updateRoles(data: RoleType) {
+    const response = await axiosInstance.post(`api/v1/role/update`, data);
+    return response?.data
 }
-
-//============= DELETE ROLES ===============
-export async function deleteRoles(params: ParamsType): Promise<RolesResponse> {
-    return (await axiosInstance.get(`api/v1/role/list`, { params })).data;
-}
-
-
-
-// must add update and delete methods , also delete extra useless elements from component and also type
