@@ -191,7 +191,7 @@ const Index = () => {
             className="w-[300px]"
           />
 
-          <Button type="primary" size="large" style={{ maxWidth: 160, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40 }} onClick={handleSearch}>Search</Button>
+          <Button type="primary" size="large" style={{ maxWidth: 160, minWidth: 80, backgroundColor:"success", color: "white", height: 40 }} onClick={handleSearch}>Search</Button>
         </div>
         <Button type="primary" size="large" style={{ maxWidth: 80, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40, }} onClick={showModal} className="text-[16px]">
             Create
