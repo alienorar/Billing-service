@@ -21,9 +21,9 @@ export default defineConfig({
     cors: true, 
     proxy: {
       '/api': {
-        target: 'https://4947-188-113-243-5.ngrok-free.app',
+        target: 'https://4129-188-113-237-24.ngrok-free.app',
         changeOrigin: true,
-        secure: true,
+        secure: false,
       }
     }
   }

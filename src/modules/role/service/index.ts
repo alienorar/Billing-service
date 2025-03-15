@@ -18,6 +18,6 @@ export async function getPermessions() {
 
 //============= UPDATE ROLES ===============
 export async function updateRoles(data: RoleType) {
-    const response = await axiosInstance.post(`api/v1/role/update`, data);
+    const response = await axiosInstance.put(`api/v1/role/update`, data);
     return response?.data
 }

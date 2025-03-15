@@ -18,7 +18,7 @@ export async function createAdmins(data:AdminType): Promise<AdminsResponse> {
 
 //============= UPDATE ADMINS ===============
 export async function updateAdmins(data:AdminType) {
-    const response = await axiosInstance.post(`api/v1/admin/user/update`, data);
+    const response = await axiosInstance.put(`api/v1/admin/user/update`, data);
     return response?.data
 }
 

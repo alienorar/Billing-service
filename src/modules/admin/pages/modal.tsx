@@ -110,7 +110,7 @@ const AdminsModal = ({ open, handleClose, update, roles }: AdminModalType) => {
                             borderRadius: "6px",
                         }}
                     >
-                        {update?.roleId ? "Update Admin" : "Create Admin"}
+                        {update?.id ? "Update Admin" : "Create Admin"}
                     </Button>
                 </Form.Item>
             </Form>
