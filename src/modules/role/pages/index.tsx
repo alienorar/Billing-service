@@ -4,12 +4,12 @@ import { EditOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { GlobalTable } from '@components';
 import { RoleType } from "@types";
-import { useGetPermessions, useGetRoles } from "../hooks/queries";
+import { useGetPermessions, useGetRoleById, useGetRoles } from "../hooks/queries";
 import RolesModal from "./modal";
 
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [update, setUpdate] = useState({});
+  const [update, setUpdate] = useState<RoleType | undefined>(undefined);
   const [tableData, setTableData] = useState<RoleType[]>([]);
   const [total, setTotal] = useState<number>(0);
   const navigate = useNavigate();
@@ -76,10 +76,21 @@ const Index = () => {
     showModal();
   };
 
-  const roleId = update.id
-  console.log(roleId);
+
+  const roleId = update?.id;
+
+  const { data: selectedPerms } = roleId ? useGetRoleById(roleId) : { data: null };
+  
+  useEffect(() => {
+    if (selectedPerms) {
+      setSelectedPermL(selectedPerms);
+    }
+  }, [selectedPerms]);
+  
+  console.log(selectedPermL,"dbhebfhbejh");
   
 
+  
   // Table columns
   const columns = [
     {
@@ -120,6 +131,7 @@ const Index = () => {
         handleClose={handleClose}
         update={update}
         permessionL={permessionL}
+        selectedPermL={selectedPermL}
       />
       <div className="flex items-center justify-end py-4 px-5">
         <Button

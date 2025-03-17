@@ -85,14 +85,14 @@ const RolesModal = ({ open, handleClose, update, permessionL, selectedPermL }: R
           <Input style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }} />
         </Form.Item>
 
-        <Form.Item label="Already Selected Permissions">
+        {/* <Form.Item label="Already Selected Permissions">
           <Input.TextArea
             value={(roleData?.data?.userPermissions ?? [])
               .map(perm => perm.name)
               .join(", ")}
             readOnly
           />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item label="Permissions" name="permissions">
           <Select
