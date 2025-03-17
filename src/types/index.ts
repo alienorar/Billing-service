@@ -1,5 +1,5 @@
 import { AnyObject } from "antd/es/_util/type";
-import { ColumnsType, TablePaginationConfig } from "antd/es/table";
+import { ColumnsType, TablePaginationConfig, TableProps } from "antd/es/table";
 
 // ========== PARAMS TYPE ==========
 export interface ParamsType {
@@ -47,16 +47,18 @@ export interface AdminsResponse {
 // ========== MODALS TYPE ==========
 export interface GlobalModalProps {
   open?: boolean,
+  loading?: boolean;
   handleClose: () => void,
   getData?: () => void,
 }
 
 // ==========GLOBAL TABLE TYPE ==========
 export interface TablePropsType {
-  columns: ColumnsType<AnyObject>,
-  data: AnyObject[] | undefined,
-  pagination: false | TablePaginationConfig | undefined,
-  handleChange: (pagination: TablePaginationConfig) => void,
+  columns: ColumnsType<AnyObject>;
+  data: AnyObject[] | undefined;
+  pagination: false | TablePaginationConfig | undefined;
+  handleChange: (pagination: TablePaginationConfig) => void;
+  onRow?: TableProps<AnyObject>["onRow"]; 
 }
 // ==========GLOBAL DELETE TYPE ==========
 export interface ConfirmType {

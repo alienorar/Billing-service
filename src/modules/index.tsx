@@ -15,6 +15,10 @@ const Students = loadable(() => import('./students/pages'), {
   fallback: <Loading />
 });
 
+const OneStudent = loadable(() => import('./one-student/pages'), {
+  fallback: <Loading />
+});
+
 const NotFound = loadable(() => import('./not-found'), {
   fallback: <Loading />
 });
@@ -23,6 +27,7 @@ export {
   AdminPanel,
   AdminPage,
   Students,
+  OneStudent,
   Role,
   NotFound,
 }

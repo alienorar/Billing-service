@@ -11,6 +11,7 @@ import {
     AdminPage,
     Role,
     Students,
+    OneStudent,
     NotFound,
 
 } from '@modules'
@@ -25,6 +26,8 @@ const Index = () => {
                         <Route index element={<Role />} />
                         <Route path="admin-page" element={<AdminPage />} />
                         <Route path="students" element={<Students />} />
+                        <Route path="students/:id" element={<OneStudent />} />
+
                     </Route>
                 </Route>
                 <Route path="*" element={<NotFound />}></Route>
