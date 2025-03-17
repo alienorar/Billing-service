@@ -89,7 +89,7 @@ const Index = () => {
         <Space size="middle">
           <Tooltip title="View">
             <Button onClick={() => handleView(record.id.toString())}>
-            <FiEye size={18} />
+              <FiEye size={18} />
             </Button>
           </Tooltip>
         </Space>
@@ -113,6 +113,7 @@ const Index = () => {
                 lastName,
               })
             }
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
             className="w-[300px]"
           />
           <Input
@@ -127,6 +128,7 @@ const Index = () => {
                 lastName,
               })
             }
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
             className="w-[300px]"
           />
           <Input
@@ -141,11 +143,11 @@ const Index = () => {
                 lastName: e.target.value,
               })
             }
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
             className="w-[300px]"
           />
-          <Button type="primary" size="large" onClick={handleSearch}>
-            Search
-          </Button>
+          <Button type="primary" size="large" style={{ maxWidth: 160, minWidth: 80, backgroundColor: "green", color: "white", height: 36 }} onClick={handleSearch}>Search</Button>
+
         </div>
 
         <Popconfirm
@@ -153,9 +155,18 @@ const Index = () => {
           onConfirm={showModal}
           okText="Yes"
           cancelText="No"
+          okButtonProps={{
+            style: {
+              backgroundColor: "green",
+              borderColor: "green",
+              marginLeft: "10px",
+              padding: "6px 16px",
+            },
+          }}
+          cancelButtonProps={{ style: { backgroundColor: "red", borderColor: "red", color: "white", padding: "6px 16px", } }}
         >
-          <Button type="primary" size="large">
-            Upload Students
+          <Button type="primary" size="large" style={{ maxWidth: 80, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40, }} className="text-[16px]">
+            SynC
           </Button>
         </Popconfirm>
       </div>
