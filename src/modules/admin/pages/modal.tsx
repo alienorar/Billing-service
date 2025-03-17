@@ -18,6 +18,7 @@ const AdminsModal = ({ open, handleClose, update, roles }: AdminModalType) => {
                 phone: update.phone,
                 firstName: update.firstName,
                 lastName: update.lastName,
+            
             });
         } else {
             form.resetFields();

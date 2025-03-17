@@ -6,6 +6,12 @@ export async function getRoles(params: ParamsType): Promise<RolesResponse> {
     return (await axiosInstance.get(`api/v1/role/list`, { params })).data;
 }
 
+//============= GET ROLES ===============
+export async function getRoleById(id:number|string) {
+   return (await axiosInstance.get(`api/v1/role/one?id=${id}`)).data
+}
+
+
 // ============ CREATE ROLE ===========
 export async function createRoles(data: RoleType) {
     return await axiosInstance.post("api/v1/role/create", data)

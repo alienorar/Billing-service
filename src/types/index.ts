@@ -83,12 +83,14 @@ export interface RoleType {
   displayName?: string;
   defaultUrl?: string;
   permissions?: number[];
+  userPermissions?: { id: number; name: string; displayName: string }[];
 }
 
 
 export interface RoleModalType extends GlobalModalProps {
   update?: RoleType;
   permessionL?: any[];
+  selectedPermL?: { id: number; name: string; displayName: string }[]; 
 }
 
 

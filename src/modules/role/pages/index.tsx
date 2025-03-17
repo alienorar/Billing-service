@@ -16,6 +16,7 @@ const Index = () => {
   const { data: permessions } = useGetPermessions();
   const { search } = useLocation();
   const [permessionL, setPermessionL] = useState([]);
+  const [selectedPermL, setSelectedPermL] = useState([])
 
   // Pagination params
   const [params, setParams] = useState({
@@ -40,9 +41,10 @@ const Index = () => {
 
   // Update table data when roles change
   useEffect(() => {
-    if (roles?.data?.content) {
+    if (roles?.data.content) {
       setTableData(roles.data.content);
       setTotal(roles.data.paging.totalItems || 0);
+
     }
   }, [roles]);
 
@@ -74,6 +76,9 @@ const Index = () => {
     showModal();
   };
 
+  const roleId = update.id
+  console.log(roleId);
+  
 
   // Table columns
   const columns = [
