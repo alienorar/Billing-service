@@ -15,8 +15,8 @@ const Index = () => {
   const navigate = useNavigate();
   const { data: permessions } = useGetPermessions();
   const { search } = useLocation();
-  const [permessionL, setPermessionL] = useState([]);
-  const [selectedPermL, setSelectedPermL] = useState([])
+  const [selectedPermL, setSelectedPermL] = useState([]);
+  const [roleId, setRoleId] = useState<number | string | undefined>(undefined);
 
   // Pagination params
   const [params, setParams] = useState({
@@ -35,7 +35,6 @@ const Index = () => {
     const queryParams = new URLSearchParams(search);
     let page = Number(queryParams.get("page")) || 1;
     let size = Number(queryParams.get("size")) || 10;
-
     setParams({ size, page });
   }, [search]);
 
@@ -44,7 +43,6 @@ const Index = () => {
     if (roles?.data.content) {
       setTableData(roles.data.content);
       setTotal(roles.data.paging.totalItems || 0);
-
     }
   }, [roles]);
 
@@ -55,42 +53,37 @@ const Index = () => {
     navigate(`?page=${current}&size=${pageSize}`);
   };
 
-
   // Open and close modal
   const showModal = () => setIsModalOpen(true);
   const handleClose = () => {
     setIsModalOpen(false);
-    setUpdate({});
+    setUpdate(undefined);
   };
 
   // Fetch permissions
   useEffect(() => {
     if (permessions) {
-      setPermessionL(permessions);
+      setSelectedPermL(permessions);
     }
   }, [permessions]);
 
+  // Fetch role data by ID when roleId changes
+  const { data: updateData } = useGetRoleById(roleId);
+  useEffect(() => {
+    if (updateData) {
+      setUpdate(updateData);
+    }
+  }, [updateData]);
+
+  console.log(update, "update");
+
+
   // Edit data
-  const editData = (item: RoleType) => {
-    setUpdate(item);
+  const editData = (item: number | string | undefined) => {
+    setRoleId(item);
     showModal();
   };
 
-
-  const roleId = update?.id;
-
-  const { data: selectedPerms } = roleId ? useGetRoleById(roleId) : { data: null };
-  
-  useEffect(() => {
-    if (selectedPerms) {
-      setSelectedPermL(selectedPerms);
-    }
-  }, [selectedPerms]);
-  
-  console.log(selectedPermL,"dbhebfhbejh");
-  
-
-  
   // Table columns
   const columns = [
     {
@@ -115,7 +108,7 @@ const Index = () => {
       render: (record: any) => (
         <Space size="middle" className="text-center">
           <Tooltip title="edit">
-            <Button onClick={() => editData(record)} className="flex items-center justify-center">
+            <Button onClick={() => editData(record.id)} className="flex items-center justify-center">
               <EditOutlined />
             </Button>
           </Tooltip>
@@ -130,7 +123,7 @@ const Index = () => {
         open={isModalOpen}
         handleClose={handleClose}
         update={update}
-        permessionL={permessionL}
+        permessionL={selectedPermL}
         selectedPermL={selectedPermL}
       />
       <div className="flex items-center justify-end py-4 px-5">
@@ -160,6 +153,3 @@ const Index = () => {
 };
 
 export default Index;
-
-
-

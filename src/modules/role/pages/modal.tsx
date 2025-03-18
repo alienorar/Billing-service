@@ -5,7 +5,7 @@ import { RoleModalType, RoleType } from "@types";
 
 const { Option } = Select;
 
-const RolesModal = ({ open, handleClose, update, permessionL, selectedPermL }: RoleModalType) => {
+const RolesModal = ({ open, handleClose, update, permessionL }: RoleModalType) => {
   const [form] = Form.useForm();
   const { mutate: createMutate, isPending: isCreating } = useCreateRoles();
   const { mutate: updateMutate, isPending: isUpdating } = useUpdateRoles();
@@ -108,8 +108,6 @@ const RolesModal = ({ open, handleClose, update, permessionL, selectedPermL }: R
             ))}
           </Select>
         </Form.Item>
-
-
 
         <Form.Item>
           <Button

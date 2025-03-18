@@ -18,25 +18,29 @@ const Index = () => {
   const { search } = useLocation();
   const { mutate } = useDeleteAdmins();
 
+  const [tempSearchParams, setTempSearchParams] = useState({
+    phone: "",
+    firstName: "",
+    lastName: "",
+  });
   const [searchParams, setSearchParams] = useState({
     phone: "",
     firstName: "",
     lastName: "",
   });
-  // Pagination params
+
   const [params, setParams] = useState({
     size: 10,
     page: 1,
   });
 
-  const { data: roles } = useGetRoles()
+  const { data: roles } = useGetRoles();
   useEffect(() => {
     if (roles) {
       setRolesL(roles?.data?.data?.content);
     }
   }, [roles]);
 
-  // Fetch admins with params
   const { data: admins } = useGetAdmins({
     size: params.size,
     page: params.page - 1,
@@ -45,21 +49,13 @@ const Index = () => {
     lastName: searchParams.lastName,
   });
 
-  // Set params from URL query params
   useEffect(() => {
     const queryParams = new URLSearchParams(search);
     let page = Number(queryParams.get("page")) || 1;
     let size = Number(queryParams.get("size")) || 10;
     setParams({ size, page });
-    setSearchParams({
-      phone: queryParams.get("phone") || "",
-      firstName: queryParams.get("firstName") || "",
-      lastName: queryParams.get("lastName") || "",
-    });
   }, [search]);
 
-
-  // Update table data when admins change
   useEffect(() => {
     if (admins?.data?.content) {
       setTableData(admins.data.content);
@@ -67,7 +63,6 @@ const Index = () => {
     }
   }, [admins]);
 
-  // Handle table pagination change
   const handleTableChange = (pagination: any) => {
     const { current, pageSize } = pagination;
     setParams({ size: pageSize, page: current });
@@ -75,29 +70,27 @@ const Index = () => {
   };
 
   const handleSearch = () => {
+    setSearchParams(tempSearchParams);
     navigate(
-      `?page=1&size=${params.size}&phone=${searchParams.phone}&firstName=${searchParams.firstName}&lastName=${searchParams.lastName}`
+      `?page=1&size=${params.size}&phone=${tempSearchParams.phone}&firstName=${tempSearchParams.firstName}&lastName=${tempSearchParams.lastName}`
     );
   };
-  // Open and close modal
+
   const showModal = () => setIsModalOpen(true);
   const handleClose = () => {
     setIsModalOpen(false);
     setUpdate(null);
   };
 
-  // Edit data
   const editData = (item: AdminType) => {
     setUpdate(item);
     showModal();
   };
 
-  // ======== delete Data ========= 
   const deleteData = async (id: number) => {
-    mutate(id)
-
+    mutate(id);
   };
-  // Table columns
+
   const columns = [
     {
       title: "ID",
@@ -120,17 +113,6 @@ const Index = () => {
       dataIndex: "lastName",
     },
     {
-      title: 'Date',
-      dataIndex: 'createdAt',
-      render: (date: string) => {
-        if (!date) return '-';
-        // Convert "13-03-2025 12:32:55" → "2025-03-13T12:32:55"
-        const [day, month, year, time] = date.split(/[-\s:]/);
-        const formattedDate = new Date(`${year}-${month}-${day}T${time}:${date.split(':')[2]}`);
-        return formattedDate.toLocaleDateString('en-GB').replace(/\//g, '.');
-      }
-    },
-    {
       title: "Action",
       key: "action",
       render: (record: any) => (
@@ -143,8 +125,8 @@ const Index = () => {
           <ConfirmDelete
             id={record.id}
             onConfirm={deleteData}
-            onCancel={() => console.log('Cancelled')}
-            title={"Delete this Brands ?"}
+            onCancel={() => console.log("Cancelled")}
+            title={"Delete this Admin?"}
           />
         </Space>
       ),
@@ -153,47 +135,39 @@ const Index = () => {
 
   return (
     <>
-      <AdminsModal
-        open={isModalOpen}
-        handleClose={handleClose}
-        update={update}
-        roles={rolesL}
-      />
+      <AdminsModal open={isModalOpen} handleClose={handleClose} update={update} roles={rolesL} />
       <div className="flex flex-col gap-4 px-5 py-4">
         <div className="flex items-center justify-between ">
           <Input
             placeholder="Search by phone"
-            value={searchParams.phone}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchParams({ ...searchParams, phone: e.target.value })
-            }
-            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+            value={tempSearchParams.phone}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTempSearchParams({ ...tempSearchParams, phone: e.target.value })}
             className="w-[300px]"
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+
           />
 
           <Input
             placeholder="Search by first name"
-            value={searchParams.firstName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchParams({ ...searchParams, firstName: e.target.value })
-            }
-            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+            value={tempSearchParams.firstName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTempSearchParams({ ...tempSearchParams, firstName: e.target.value })}
             className="w-[300px]"
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+
           />
 
           <Input
             placeholder="Search by last name"
-            value={searchParams.lastName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchParams({ ...searchParams, lastName: e.target.value })
-            }
-            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+            value={tempSearchParams.lastName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTempSearchParams({ ...tempSearchParams, lastName: e.target.value })}
             className="w-[300px]"
+            style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }}
+
           />
 
-          <Button type="primary" size="large" style={{ maxWidth: 160, minWidth: 80, backgroundColor: "green", color: "white", height: 36 }} onClick={handleSearch}>Search</Button>
+          <Button type="primary" size="large" onClick={handleSearch} style={{ maxWidth: 160, minWidth: 80, backgroundColor: "green", color: "white", height: 36 }}>Search</Button>
         </div>
-        <Button type="primary" size="large" style={{ maxWidth: 80, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40, }} onClick={showModal} className="text-[16px]">
+        <Button type="primary" size="large" onClick={showModal} style={{ maxWidth: 80, minWidth: 80, backgroundColor: "#1E9FD9", color: "white", height: 40 }}>
           Create
         </Button>
       </div>
