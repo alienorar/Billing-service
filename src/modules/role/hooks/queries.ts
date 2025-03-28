@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPermessions, getRoleById, getRoles } from "../service";
+import { getPermessions, GetPermessionTree, getRoleById, getRoles } from "../service";
 import { ParamsType, RolesResponse } from "@types";
 
 // ============ GET PERMESSIONS ===========
@@ -25,3 +25,11 @@ export const useGetRoleById = (id:string|number) => {
     });
   };
   
+//=========== GET PERMESSION TREE ============
+export const useGetPermessionTree = () => {
+  return useQuery({
+    queryKey: ["permession-tree"],  
+    queryFn: () => GetPermessionTree(), 
+  });
+};
+

@@ -4,7 +4,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { GlobalTable } from '@components';
 import { RoleType } from "@types";
-import { useGetPermessions, useGetRoleById, useGetRoles } from "../hooks/queries";
+import {  useGetPermessionTree, useGetRoleById, useGetRoles } from "../hooks/queries";
 import RolesModal from "./modal";
 
 const Index = () => {
@@ -13,10 +13,11 @@ const Index = () => {
   const [tableData, setTableData] = useState<RoleType[]>([]);
   const [total, setTotal] = useState<number>(0);
   const navigate = useNavigate();
-  const { data: permessions } = useGetPermessions();
+  // const { data: permessions } = useGetPermessions();
   const { search } = useLocation();
   const [selectedPermL, setSelectedPermL] = useState([]);
   const [roleId, setRoleId] = useState<number | string | undefined>(undefined);
+  const { data: permessionTree } = useGetPermessionTree()
 
   // Pagination params
   const [params, setParams] = useState({
@@ -60,18 +61,21 @@ const Index = () => {
     setUpdate(undefined);
   };
 
+  // console.log(permessionTree,"tree");
+
   // Fetch permissions
   useEffect(() => {
-    if (permessions) {
-      setSelectedPermL(permessions);
+    if (permessionTree) {
+      setSelectedPermL(permessionTree);
     }
-  }, [permessions]);
+  }, [permessionTree]);
 
   // Fetch role data by ID when roleId changes
-  const { data: updateData } = useGetRoleById(roleId);
+  const { data: updateData } = useGetRoleById(roleId || "");
+
   useEffect(() => {
-    if (updateData) {
-      setUpdate(updateData);
+    if (updateData?.data) {
+      setUpdate(updateData.data);
     }
   }, [updateData]);
 

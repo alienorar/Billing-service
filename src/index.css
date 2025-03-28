@@ -23,3 +23,43 @@
         transform: rotate(1turn)
     }
 }
+
+/* Change checkbox size */
+.ant-select-tree-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px; /* Makes it slightly rounded */
+    background-color: white;
+    border: 2px solid #1890ff; /* Blue outline */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Checked State */
+  .ant-select-tree-checkbox-checked .ant-select-tree-checkbox-inner {
+    background-color: white !important; /* Change the checked color */
+    border-radius: 4px;
+  }
+  
+  /* When hovered */
+  .ant-select-tree-checkbox:hover {
+    border-color: #40a9ff !important;
+  }
+  
+  /* Custom checkmark icon */
+  .ant-select-tree-checkbox-inner::after {
+    content: "✔"; /* Checkmark */
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
+    color: green;
+  }
+  

@@ -1,16 +1,19 @@
-import { Modal, Form, Input, Button, Select } from "antd";
+import { Modal, Form, Input, Button, TreeSelect } from "antd";
 import { useEffect } from "react";
 import { useCreateRoles, useUpdateRoles } from "../hooks/mutations";
 import { RoleModalType, RoleType } from "@types";
+// const { Option } = Select;
 
-const { Option } = Select;
+interface Permission {
+  id: number;
+  name: string;
+  children?: Permission[];
+}
 
 const RolesModal = ({ open, handleClose, update, permessionL }: RoleModalType) => {
   const [form] = Form.useForm();
   const { mutate: createMutate, isPending: isCreating } = useCreateRoles();
   const { mutate: updateMutate, isPending: isUpdating } = useUpdateRoles();
-
-
 
   useEffect(() => {
     if (update?.id) {
@@ -95,20 +98,25 @@ const RolesModal = ({ open, handleClose, update, permessionL }: RoleModalType) =
         </Form.Item> */}
 
         <Form.Item label="Permissions" name="permissions">
-          <Select
-            mode="multiple"
+          <TreeSelect
+            treeData={permessionL?.map((parent) => ({
+              title: parent.name,
+              value: parent.id,
+              key: parent.id,
+              children: parent.children?.map((child: Permission) => ({
+                title: child.name,
+                value: child.id,
+                key: child.id,
+              })),
+            }))}
+            treeCheckable={true}
+            showCheckedStrategy={TreeSelect.SHOW_PARENT}
             placeholder="Select permissions"
-            style={{ padding: "5px", borderRadius: "6px", border: "1px solid #d9d9d9" }}
-            optionLabelProp="label"
-          >
-            {permessionL?.map((perm) => (
-              <Option key={perm.id} value={perm.id} label={perm.name}>
-                {perm.name}
-              </Option>
-            ))}
-          </Select>
+            style={{ width: "100%" }}
+            value={form.getFieldValue("permissions") || []}
+            onChange={(values) => form.setFieldsValue({ permissions: values })}
+          />
         </Form.Item>
-
         <Form.Item>
           <Button
             block

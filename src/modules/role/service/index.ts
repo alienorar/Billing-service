@@ -27,3 +27,9 @@ export async function updateRoles(data: RoleType) {
     const response = await axiosInstance.put(`api/v1/role/update`, data);
     return response?.data
 }
+
+//=========== GET PERMESSION TREE ============
+export async function GetPermessionTree () {
+    const response = await axiosInstance.get(`api/v1/role/permission/list/tree`);
+    return response?.data?.data
+}
