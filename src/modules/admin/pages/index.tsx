@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button, Input, Space, Tooltip } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { Button, Input, Popconfirm, Space, Tooltip } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ConfirmDelete, GlobalTable } from "@components";
+import { GlobalTable } from "@components";
 import { AdminType } from "@types";
 import { useGetAdmins, useGetRoles } from "../hooks/queries";
 import AdminsModal from "./modal";
@@ -122,12 +122,36 @@ const Index = () => {
               <EditOutlined />
             </Button>
           </Tooltip>
-          <ConfirmDelete
-            id={record.id}
-            onConfirm={deleteData}
-            onCancel={() => console.log("Cancelled")}
-            title={"Delete this Admin?"}
-          />
+
+          <Tooltip title="delete">
+            <Popconfirm
+              title="Are you sure you want to upload students?"
+              onConfirm={() => deleteData(record.id)}
+              okText="Yes"
+              cancelText="No"
+              okButtonProps={{
+                style: {
+                  backgroundColor: "green",
+                  borderColor: "green",
+                  marginLeft: "10px",
+                  padding: "6px 16px",
+                },
+              }}
+              cancelButtonProps={{
+                style: {
+                  backgroundColor: "red",
+                  borderColor: "red",
+                  color: "white",
+                  padding: "6px 16px",
+                },
+              }}
+            >
+              <Button>
+                <DeleteOutlined className='text-red-400 text-[18px]' />
+              </Button>
+
+            </Popconfirm>
+          </Tooltip>
         </Space>
       ),
     },
