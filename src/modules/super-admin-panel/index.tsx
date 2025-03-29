@@ -2,9 +2,9 @@ import { useState } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    LoginOutlined
+    LoginOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, Modal, theme } from 'antd';
+import { Button, Layout, Menu,Popconfirm, theme } from 'antd';
 import { NavLink, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { adminRights } from '../../router/routes';
 import MainLogo from '../../assets/otu-logo.png';
@@ -16,7 +16,6 @@ const { Item } = Menu;
 
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
@@ -27,20 +26,11 @@ const App = () => {
     };
 
 
-    const showLogoutModal = () => {
-        setIsLogoutModalVisible(true);
-    };
-
-
     const handleLogoutOk = () => {
-        setIsLogoutModalVisible(false);
         handleLogout();
     };
 
 
-    const handleLogoutCancel = () => {
-        setIsLogoutModalVisible(false);
-    };
 
     const {
         token: { colorBgContainer, borderRadiusLG, },
@@ -79,20 +69,43 @@ const App = () => {
                                 height: 64,
                             }}
                         />
-                        <Button
-                            type="text"
-                            onClick={showLogoutModal}
-                            icon={<LoginOutlined />}
-                            style={{
-                                fontSize: '18px',
-                                width: 84,
-                                height: 44,
-                                marginRight: 30,
-                                fontFamily: 'monospace',
+                        <Popconfirm
+                            title="Are you sure you want to upload students?"
+                            onConfirm={handleLogoutOk}
+                            okText="Yes"
+                            cancelText="No"
+                            okButtonProps={{
+                                style: {
+                                    backgroundColor: "green",
+                                    borderColor: "green",
+                                    marginLeft: "10px",
+                                    padding: "6px 16px",
+                                },
+                            }}
+                            cancelButtonProps={{
+                                style: {
+                                    backgroundColor: "red",
+                                    borderColor: "red",
+                                    color: "white",
+                                    padding: "6px 16px",
+                                },
                             }}
                         >
-                            Logout
-                        </Button>
+                            <Button
+                                type="text"
+                                icon={<LoginOutlined />}
+                                style={{
+                                    fontSize: "18px",
+                                    width: 84,
+                                    height: 44,
+                                    marginRight: 30,
+                                    fontFamily: "monospace",
+                                }}
+                            >
+                                Logout
+                            </Button>
+                        </Popconfirm>
+
                     </div>
                 </Header>
                 <Content
@@ -105,21 +118,6 @@ const App = () => {
                     <Outlet />
                 </Content>
             </Layout>
-
-
-            <Modal
-                title="Confirm Logout"
-                open={isLogoutModalVisible}
-                onOk={handleLogoutOk}
-                onCancel={handleLogoutCancel}
-                okText="Logout"
-                cancelText="Cancel"
-                okButtonProps={{
-                    style: { backgroundColor: 'orangered', borderColor: 'orangered', color: '#fff', marginLeft: 10, padding: 4 },
-                }}
-            >
-                <p>Are you sure you want to log out?</p>
-            </Modal>
 
         </Layout>
     );

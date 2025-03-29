@@ -2,7 +2,7 @@ import { Modal, Form, Input, Button, TreeSelect } from "antd";
 import { useEffect } from "react";
 import { useCreateRoles, useUpdateRoles } from "../hooks/mutations";
 import { RoleModalType, RoleType } from "@types";
-// const { Option } = Select;
+
 
 interface Permission {
   id: number;
@@ -88,14 +88,6 @@ const RolesModal = ({ open, handleClose, update, permessionL }: RoleModalType) =
           <Input style={{ padding: "6px", border: "1px solid #d9d9d9", borderRadius: "6px" }} />
         </Form.Item>
 
-        {/* <Form.Item label="Already Selected Permissions">
-          <Input.TextArea
-            value={(roleData?.data?.userPermissions ?? [])
-              .map(perm => perm.name)
-              .join(", ")}
-            readOnly
-          />
-        </Form.Item> */}
 
         <Form.Item label="Permissions" name="permissions">
           <TreeSelect

@@ -28,7 +28,7 @@ export const useGetRoleById = (id:string|number) => {
 //=========== GET PERMESSION TREE ============
 export const useGetPermessionTree = () => {
   return useQuery({
-    queryKey: ["permession-tree"],  
+    queryKey: ["permessions"],  
     queryFn: () => GetPermessionTree(), 
   });
 };

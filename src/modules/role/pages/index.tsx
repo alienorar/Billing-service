@@ -13,7 +13,6 @@ const Index = () => {
   const [tableData, setTableData] = useState<RoleType[]>([]);
   const [total, setTotal] = useState<number>(0);
   const navigate = useNavigate();
-  // const { data: permessions } = useGetPermessions();
   const { search } = useLocation();
   const [selectedPermL, setSelectedPermL] = useState([]);
   const [roleId, setRoleId] = useState<number | string | undefined>(undefined);
@@ -61,7 +60,6 @@ const Index = () => {
     setUpdate(undefined);
   };
 
-  // console.log(permessionTree,"tree");
 
   // Fetch permissions
   useEffect(() => {
@@ -70,8 +68,9 @@ const Index = () => {
     }
   }, [permessionTree]);
 
+
   // Fetch role data by ID when roleId changes
-  const { data: updateData } = useGetRoleById(roleId || "");
+  const { data: updateData } = useGetRoleById(roleId||"");
 
   useEffect(() => {
     if (updateData?.data) {
@@ -79,7 +78,6 @@ const Index = () => {
     }
   }, [updateData]);
 
-  console.log(update, "update");
 
 
   // Edit data
